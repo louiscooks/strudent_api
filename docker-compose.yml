@@ -1,0 +1,15 @@
+version: "3.7"
+
+services:
+  db:
+    container_name: "customer-db"
+    image: mysql:5.7
+    ports:
+      - "3306:3306"
+    volumes:
+      - ./dbinit/init.sql:/docker-entrypoint-initdb.d/0_init.sql
+      - ./provision/customer-api.cnf:/etc/mysql/conf.d/customer-api.cnf
+    cap_add:
+      - SYS_NICE # silence mbind: Operation not permitted
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
